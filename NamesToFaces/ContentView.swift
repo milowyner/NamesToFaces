@@ -8,22 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showingAddView = false
+    @State private var people = [Person]()
+    
     var body: some View {
         NavigationView {
-            List(0..<3) { _ in
+            List(people) { person in
                 HStack {
-                    Image("TestPhoto")
+                    person.face
                         .resizable()
                         .scaledToFill()
                         .frame(width: 60, height: 60)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
-                    Text("First Last")
+                    Text(person.name)
                         .font(.title3)
                 }
             }
             .navigationTitle(Text("Names to Faces"))
             .navigationBarItems(trailing: Button("Add") {
-                // open image picker
+                showingAddView = true
+            })
+            .sheet(isPresented: $showingAddView, content: {
+                AddView(people: $people)
             })
         }
     }
