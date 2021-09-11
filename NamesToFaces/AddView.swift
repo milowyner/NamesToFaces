@@ -12,7 +12,6 @@ struct AddView: View {
     
     @State private var name = ""
     @State private var face: Image?
-    @State private var showingImagePicker = true
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -21,14 +20,17 @@ struct AddView: View {
             NavigationView {
                 VStack {
                     face
-                        .resizable()
-                        .scaledToFit()
+                        .clipSquare()
+                        .cornerRadius(10)
                     TextField("Name", text: $name, onCommit:  {
                         let person = Person(name: name, face: face)
                         people.append(person)
                         presentationMode.wrappedValue.dismiss()
                     })
                     .multilineTextAlignment(.center)
+                    .font(.title)
+                    .padding(.vertical, 8)
+                    
                     Spacer()
                 }
                 .padding(.horizontal)

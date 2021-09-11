@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(people) { person in
-                HStack {
+                NavigationLink(destination: DetailView(person: person)) {
                     person.face
                         .resizable()
                         .scaledToFill()
