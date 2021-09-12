@@ -15,16 +15,19 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            List(people) { person in
-                NavigationLink(destination: DetailView(person: person)) {
-                    person.face
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 60, height: 60)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    Text(person.name)
-                        .font(.title3)
+            List {
+                ForEach(people) { person in
+                    NavigationLink(destination: DetailView(person: person)) {
+                        person.face
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 60, height: 60)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        Text(person.name)
+                            .font(.title3)
+                    }
                 }
+                .onDelete(perform: delete)
             }
             .navigationTitle(Text("Names to Faces"))
             .navigationBarItems(trailing: Button("Add") {
@@ -53,6 +56,11 @@ struct ContentView: View {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func delete(atOffsets indexSet: IndexSet) {
+        people.remove(atOffsets: indexSet)
+        save()
     }
 }
 
