@@ -22,6 +22,9 @@ struct AddView: View {
                     Image(uiImage: face)
                         .clipSquare()
                         .cornerRadius(10)
+                        .onTapGesture {
+                            self.face = nil
+                        }
                     TextField("Name", text: $name, onCommit:  {
                         let person = Person(name: name, face: face)
                         people.append(person)
