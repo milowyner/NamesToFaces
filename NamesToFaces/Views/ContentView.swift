@@ -11,6 +11,8 @@ struct ContentView: View {
     @State private var showingAddView = false
     @State private var people = [Person]()
     
+    static let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("people.json")
+    
     var body: some View {
         NavigationView {
             List(people) { person in
@@ -28,9 +30,28 @@ struct ContentView: View {
             .navigationBarItems(trailing: Button("Add") {
                 showingAddView = true
             })
-            .sheet(isPresented: $showingAddView, content: {
+            .sheet(isPresented: $showingAddView, onDismiss: save, content: {
                 AddView(people: $people)
             })
+        }
+        .onAppear(perform: load)
+    }
+    
+    func load() {
+        do {
+            let data = try Data(contentsOf: Self.path)
+            people = try JSONDecoder().decode([Person].self, from: data)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func save() {
+        do {
+            let data = try JSONEncoder().encode(people)
+            try data.write(to: Self.path)
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }

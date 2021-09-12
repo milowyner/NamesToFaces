@@ -11,7 +11,7 @@ struct AddView: View {
     @Binding var people: [Person]
     
     @State private var name = ""
-    @State private var face: Image?
+    @State private var face: UIImage?
     
     @Environment(\.presentationMode) var presentationMode
     
@@ -19,7 +19,7 @@ struct AddView: View {
         if let face = face {
             NavigationView {
                 VStack {
-                    face
+                    Image(uiImage: face)
                         .clipSquare()
                         .cornerRadius(10)
                     TextField("Name", text: $name, onCommit:  {

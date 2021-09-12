@@ -28,7 +28,7 @@ struct DetailView: View {
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            DetailView(person: Person(name: "Michael C. Jordan", face: Image("TestPhoto")))
+            DetailView(person: Person(name: "Michael C. Jordan", face: UIImage(named: "TestPhoto")!))
         }
     }
 }
