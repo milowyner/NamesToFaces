@@ -32,7 +32,7 @@ class LocationFetcher: NSObject, CLLocationManagerDelegate, ObservableObject {
             manager.startUpdatingLocation()
         default:
             print("Location denied.")
-            onComplete(nil)
+            complete(nil)
         }
     }
     
@@ -66,7 +66,7 @@ class LocationFetcher: NSObject, CLLocationManagerDelegate, ObservableObject {
             } else if manager.authorizationStatus == .denied {
                 print("Auth status changed to denied.")
                 requested = false
-                onComplete(nil)
+                complete(nil)
             }
         }
     }

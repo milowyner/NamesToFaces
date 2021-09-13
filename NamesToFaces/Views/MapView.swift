@@ -15,6 +15,12 @@ struct MapView: UIViewRepresentable {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
         mapView.centerCoordinate = centerCoordinate
+        mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+        
+        let pin = MKPointAnnotation()
+        pin.coordinate = centerCoordinate
+        mapView.addAnnotation(pin)
+        
         return mapView
     }
 
