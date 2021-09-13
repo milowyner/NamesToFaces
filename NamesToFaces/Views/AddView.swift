@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct AddView: View {
+    @Environment(\.presentationMode) private var presentationMode
+    
     @Binding var people: [Person]
+    @State var face: UIImage?
     
     @State private var name = ""
-    @State private var face: UIImage?
     
-    @Environment(\.presentationMode) var presentationMode
+    private let locationFetcher = LocationFetcher()
     
     var body: some View {
         if let face = face {
@@ -26,9 +28,11 @@ struct AddView: View {
                             self.face = nil
                         }
                     TextField("Name", text: $name, onCommit:  {
-                        let person = Person(name: name, face: face)
-                        people.append(person)
-                        presentationMode.wrappedValue.dismiss()
+                        locationFetcher.start(onComplete: { location in
+                            let person = Person(name: name, face: face, location: location)
+                            people.append(person)
+                            presentationMode.wrappedValue.dismiss()
+                        })
                     })
                     .multilineTextAlignment(.center)
                     .font(.title)
@@ -47,6 +51,6 @@ struct AddView: View {
 
 struct AddView_Previews: PreviewProvider {
     static var previews: some View {
-        AddView(people: .constant([]))
+        AddView(people: .constant([]), face: UIImage(named: "TestPhoto"))
     }
 }
